@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Image with Textbox and Button</title>
+    <style>
+        body {
+            /* 使用图片作为背景，你可以替换为你自己的图片 URL */
+            background-image: url('../static/color.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: Arial, sans-serif; /* 设置全局字体为 Arial */
+        }
+
+        #inputText {
+            width: 60%; /* 增大文本框的宽度 */
+            height: 200px; /* 增大文本框的高度 */
+            padding: 10px; /* 文本框内部的填充 */
+            line-height: 2; /* 调整行间距 */
+            margin-bottom: 20px; /* 在文本框和按钮之间添加空行 */
+            background-color: rgba(255, 255, 255, 0.6); /* 设置文本框背景为白色并带有60%的透明度 */
+            border: 1px solid #ccc; /* 添加边框 */
+            font-size: 1.1em; /* 增大字体大小 */
+        }
+
+        #result {
+            margin-top: 20px;
+            display: none;
+        }
+
+        button {
+            margin-top: 20px; /* 在按钮和文本框之间添加空行 */
+            font-size: 1.2em; /* 增大字体大小 */
+            padding: 10px 20px; /* 增大按钮内部的填充 */
+            width: 30%; /* 设置按钮宽度 */
+        }
+    </style>
+</head>
+<body>
+    <textarea id="inputText" rows="8" cols="50" placeholder="请输入文本..."></textarea>
+    <button onclick="showResult()">点击显示GPT检测结果</button>
+    <div id="result">GPT检测结果</div>
+
+    <script>
+        function showResult() {
+            // 获取文本框的值
+            let textValue = document.getElementById('inputText').value;
+
+            // 使用 AJAX 发送数据到 Flask 服务器
+            fetch('/send_text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({text: textValue})
+            })
+            .then(response => response.json())
+            .then(data => {
+                // 显示结果
+                let resultDiv = document.getElementById('result');
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = data.message;
+            });
+        }
+    </script>
+</body>
+</html>
