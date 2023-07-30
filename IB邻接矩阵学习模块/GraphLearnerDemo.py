@@ -2,7 +2,7 @@ import torch
 from layers import GraphLearner
 
 # 初始化一个Tensor
-node_features = torch.randn(16, 94, 768)
+node_features = torch.randn(16, 84, 768)
 
 # 创建一个GraphLearner实例
 graph_learner = GraphLearner(input_size=768, hidden_size=128, graph_type='KNN', top_k=10, num_pers=4, metric_type="attention")
